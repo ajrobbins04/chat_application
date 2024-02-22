@@ -1,5 +1,5 @@
 {application, chat_application,
- [{description, "An OTP application"},
+ [{description, "An OTP chat application"},
   {vsn, "0.1.0"},
   {registered, []},
   {mod, {chat_application, []}},
@@ -8,7 +8,7 @@
     stdlib
    ]},
   {env,[]},
-  {modules, []},
+  {modules, [chat_application, chat_supervisor, tcp_server]},
 
   {licenses, ["Apache-2.0"]},
   {links, []}
