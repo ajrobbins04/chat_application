@@ -8,7 +8,7 @@
 -behaviour(supervisor).
 
 -export([start_link/1]).
-
+-export([start_socket/0]).
 -export([init/1]).
 
 start_link(Port) ->
