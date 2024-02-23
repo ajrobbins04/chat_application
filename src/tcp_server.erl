@@ -14,7 +14,7 @@
 %% gen_server behaviour uses the following 
 %% callbacks: init/1, handle_call/3, handle_cast/2, 
 %% handle_info/2, and terminate/2
--export([start_link/1, init/1]).
+-export([start_link/1, init/1, handle_cast/2]).
 
 
 start_link(ListenSocket) ->
@@ -29,7 +29,7 @@ init(ListenSocket) ->
 %% handles async messages (called 'casts') that 
 %% don't expect a response from the server state
 handle_cast({start, ListenSocket}, State) ->
-    accept_connections(ListenSocket),
+    accept(ListenSocket),
     {noreply, State}. % tuples w/noreply are valid
 
 %% handles synchronous requests
