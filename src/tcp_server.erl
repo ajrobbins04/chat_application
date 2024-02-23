@@ -19,16 +19,17 @@
 
 start_link(ListenSocket) ->
     % spawns new child process 
-    gen_server:start_link(?MODULE, ListenSocket, []).
+    gen_server:start_link({local, ?MODULE}, ?MODULE, ListenSocket, []).
 
 % callback function to initialize the server (the 3rd arg of start_link/4)
 init(ListenSocket) ->
-    gen_server:cast(self(), accept),
+    gen_server:cast(self(), {start, ListenSocket}),
 	{ok, #server_state{listen_socket=ListenSocket}}.
 
 %% handles async messages (called 'casts') that 
 %% don't expect a response from the server state
-handle_cast(_Msg, State) ->
+handle_cast({start, ListenSocket}, State) ->
+    accept_connections(ListenSocket),
     {noreply, State}. % tuples w/noreply are valid
 
 %% handles synchronous requests
@@ -41,7 +42,7 @@ handle_cast(_Msg, State) ->
 %%terminate(Reason, State) ->.
 
 
-accept(State = #server_state{listen_socket = ListenSocket}) ->
+accept(ListenSocket) ->
     {ok, AcceptSocket} = gen_tcp:accept(ListenSocket),
     spawn(fun() -> client_handler:handle_client(AcceptSocket) end),
-    accept(State). % continue accepting incoming connections
+    accept(ListenSocket). % continue accepting incoming connections

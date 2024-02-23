@@ -12,9 +12,8 @@
 -export([init/1]).
 
 start_link(Port) ->
-    ServerName = chat_server,
     % starts the gen_server supervisor at the given Port 
-    supervisor:start_link({local, ServerName}, ?MODULE, [Port]).
+    supervisor:start_link({local, ?MODULE}, ?MODULE, [Port]).
 
 init([Port]) ->
     TCP_OPTIONS = [{active, once}, {packet, line}], 
