@@ -8,7 +8,7 @@
     stdlib
    ]},
   {env,[]},
-  {modules, [chat_application, chat_supervisor, tcp_server]},
+  {modules, [chat_application, socket_sup, tcp_server]},
 
   {licenses, ["Apache-2.0"]},
   {links, []}
